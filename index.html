@@ -30,13 +30,14 @@
             padding: 48px 52px 36px 52px;
             margin-bottom: 24px;
             border: 1.5px solid #10b981;
-            position: relative;
             min-height: 900px;
+            position: relative;
         }
         @media print {
             .pdf-section {page-break-inside: avoid;}
             .pdf-pagebreak {display: block; height: 0; page-break-before: always;}
         }
+        /* PDF en-tête miniature */
         .page-header {
             display: flex;
             align-items: center;
@@ -57,6 +58,7 @@
             box-shadow: 0 8px 18px rgba(16, 185, 129, 0.22);
             border: 3px solid #d1fae5;
             overflow: hidden;
+            flex-shrink: 0;
         }
         .profile-photo-small img {
             width: 100%;
@@ -117,6 +119,50 @@
         .section-content.active {display: block;}
         @keyframes fadeIn {from {opacity: 0;transform: translateY(20px);} to {opacity: 1;transform: translateY(0);}}
         /* --- Styles Section --- */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 28px;
+            margin-bottom: 40px;
+        }
+        .profile-photo-small {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 18px rgba(16, 185, 129, 0.22);
+            border: 3px solid #d1fae5;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .profile-photo-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-header-content {
+            flex: 1;
+        }
+        .profile-header-content h1 {
+            font-size: 2.5rem;
+            color: #065f46;
+            margin-bottom: 10px;
+        }
+        .profile-header-content h2 {
+            font-size: 1.5rem;
+            color: #059669;
+            margin-bottom: 20px;
+        }
+        .profile-header-content .tagline {
+            max-width: 600px;
+            font-size: 1.1rem;
+            color: #6b7280;
+            line-height: 1.7;
+        }
         .stats-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));gap: 20px;margin-top: 40px;}
         .stat-card {
             background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
@@ -160,7 +206,6 @@
         .period, .location {color: #6b7280;font-size: 0.9rem;margin-bottom: 3px;}
         .achievements {margin-top: 20px;padding-left: 20px;}
         .achievements li {margin-bottom: 8px;color: #4b5563;}
-        /* Compétences */
         .skills-section {margin-bottom: 40px;}
         .skill-header {display: flex;justify-content: space-between;margin-bottom: 8px;font-weight: 500;}
         .skill-bar {height: 8px;background: #d1fae5;border-radius: 4px;overflow: hidden;}
@@ -199,7 +244,6 @@
             border-radius: 10px;
             border-left: 4px solid #10b981;
         }
-        /* Contact */
         .contact-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));gap: 20px;margin-bottom: 40px;}
         .contact-card {display: flex;align-items: center;gap: 20px;}
         .contact-icon {
@@ -213,7 +257,6 @@
             border-radius: 50%;
             box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
         }
-        /* Call to action */
         .cta-section {
             text-align: center;
             background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
@@ -242,19 +285,16 @@
             transform: translateY(-2px);
             box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
         }
-        /* Responsive Design */
         @media (max-width: 768px) {
             .app {padding: 10px;}
             .main-content {padding: 20px;}
-            .profile-header h1 {font-size: 2rem;}
+            .profile-header-content h1 {font-size: 2rem;}
             .stats-grid {grid-template-columns: 1fr;}
-            .navigation {padding: 15px;}
-            .nav-btn {padding: 10px 20px;font-size: 0.9rem;}
             .pdf-section {padding: 18px 4vw;}
             .page-header-content h1 {font-size: 1.2rem;}
+            .profile-photo-small {width: 60px;height: 60px;}
         }
     </style>
-    <!-- Ajout de html2pdf.js depuis CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
@@ -268,38 +308,30 @@
                 <button class="nav-btn" onclick="showSection('contact')">Contact</button>
             </nav>
             <main class="main-content" id="main-content">
-                <!-- Section Profil -->
+                <!-- Section Profil miniaturisée -->
                 <div id="profile" class="section-content active">
                     <div class="profile-header">
-                        <div class="profile-photo">
+                        <div class="profile-photo-small">
                             <img src="profile_v2(1).PNG" alt="Photo de Frédéric"
-                                 onerror="this.onerror=null;this.src='https://via.placeholder.com/150?text=Photo';">
+                                onerror="this.onerror=null;this.src='https://via.placeholder.com/90?text=Photo';">
                         </div>
-                        <h1>Frédéric Escoffier</h1>
-                        <h2>Cuisinier Professionnel</h2>
-                        <p class="tagline">
-                            Passionné par la gastronomie, je mets mon savoir-faire au service de créations culinaires 
-                            innovantes et équilibrées. Fort d'une expérience solide dans divers environnements de cuisine, 
-                            je m'engage à offrir des plats de qualité exceptionnelle.
-                        </p>
+                        <div class="profile-header-content">
+                            <h1>Frédéric Escoffier</h1>
+                            <h2>Cuisinier Professionnel</h2>
+                            <div class="tagline">
+                                Passionné par la gastronomie, je mets mon savoir-faire au service de créations culinaires 
+                                innovantes et équilibrées. Fort d'une expérience solide dans divers environnements de cuisine, 
+                                je m'engage à offrir des plats de qualité exceptionnelle.
+                            </div>
+                        </div>
                     </div>
                     <div class="stats-grid">
-                        <div class="stat-card">
-                            <h3>27+ ans</h3>
-                            <p>d'expérience</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>300</h3>
-                            <p>repas par jour</p>
-                        </div>
-                        <div class="stat-card">
-                            <h3>CAP</h3>
-                            <p>Cuisine Classique</p>
-                        </div>
+                        <div class="stat-card"><h3>27+ ans</h3><p>d'expérience</p></div>
+                        <div class="stat-card"><h3>300</h3><p>repas par jour</p></div>
+                        <div class="stat-card"><h3>CAP</h3><p>Cuisine Classique</p></div>
                     </div>
                 </div>
                 <span class="pdf-pagebreak"></span>
-                <!-- Section Expérience -->
                 <div id="experience" class="section-content">
                     <h2 class="section-title">Expérience Professionnelle</h2>
                     <div class="experience-card">
@@ -332,7 +364,6 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Section Compétences -->
                 <div id="skills" class="section-content">
                     <h2 class="section-title">Compétences</h2>
                     <div class="skills-section">
@@ -418,7 +449,6 @@
                     </div>
                 </div>
                 <span class="pdf-pagebreak"></span>
-                <!-- Section Formation -->
                 <div id="education" class="section-content">
                     <h2 class="section-title">Formation & Certifications</h2>
                     <div class="education-card">
@@ -427,7 +457,6 @@
                         <p class="period">📅 Septembre 1983 - Juin 1986</p>
                     </div>
                 </div>
-                <!-- Section Contact -->
                 <div id="contact" class="section-content">
                     <h2 class="section-title">Contact</h2>
                     <div class="contact-grid">
@@ -463,7 +492,7 @@
                     <div class="page-header">
                         <div class="profile-photo-small">
                             <img src="profile_v2(1).PNG" alt="Photo de Frédéric"
-                                 onerror="this.onerror=null;this.src='https://via.placeholder.com/90?text=Photo';">
+                                onerror="this.onerror=null;this.src='https://via.placeholder.com/90?text=Photo';">
                         </div>
                         <div class="page-header-content">
                             <h1>Frédéric Escoffier</h1>
@@ -576,15 +605,11 @@
                     <div class="page-header">
                         <div class="profile-photo-small">
                             <img src="profile_v2(1).PNG" alt="Photo de Frédéric"
-                                 onerror="this.onerror=null;this.src='https://via.placeholder.com/90?text=Photo';">
+                                onerror="this.onerror=null;this.src='https://via.placeholder.com/90?text=Photo';">
                         </div>
                         <div class="page-header-content">
                             <h1>Frédéric Escoffier</h1>
                             <h2>Cuisinier Professionnel</h2>
-                            <div class="tagline">
-                                Passionné par la gastronomie, je mets mon savoir-faire au service de créations culinaires 
-                                innovantes et équilibrées.
-                            </div>
                         </div>
                     </div>
                     <h2 class="section-title">Formation & Certifications</h2>
@@ -624,26 +649,16 @@
     </div>
     <script>
         function showSection(sectionId) {
-            // Masquer toutes les sections
             const sections = document.querySelectorAll(".section-content");
-            sections.forEach(section => {
-                section.classList.remove("active");
-            });
-            // Désactiver tous les boutons
+            sections.forEach(section => { section.classList.remove("active"); });
             const buttons = document.querySelectorAll(".nav-btn");
-            buttons.forEach(button => {
-                button.classList.remove("active");
-            });
-            // Afficher la section sélectionnée
+            buttons.forEach(button => { button.classList.remove("active"); });
             document.getElementById(sectionId).classList.add("active");
-            // Activer le bouton correspondant
             event.target.classList.add("active");
         }
         function downloadPDF() {
-            // Affiche le contenu PDF temporairement
             const cvPdf = document.getElementById('cv-pdf');
             cvPdf.style.display = 'block';
-            // Animation barres de compétences dans le PDF
             setTimeout(() => {
                 const bars = cvPdf.querySelectorAll('.skill-progress');
                 bars.forEach(bar => {
@@ -652,7 +667,6 @@
                     setTimeout(() => { bar.style.width = width; }, 300);
                 });
             }, 10);
-            // Génère le PDF (seulement le contenu pro 2 pages)
             const opt = {
                 margin:      [0.3, 0.3, 0.3, 0.3],
                 filename:    'CV-Frederic-Escoffier.pdf',
@@ -665,7 +679,6 @@
                 cvPdf.style.display = 'none';
             });
         }
-        // Animation des barres de compétences au chargement
         window.addEventListener("load", function() {
             const skillBars = document.querySelectorAll(".skill-progress");
             skillBars.forEach(bar => {
