@@ -431,28 +431,35 @@
             box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
         }
 
+        /* Saut de page pour impression/pdf */
+        .pdf-pagebreak {
+            display: block;
+            height: 0;
+            page-break-before: always;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .app {
                 padding: 10px;
             }
-            
+
             .main-content {
                 padding: 20px;
             }
-            
+
             .profile-header h1 {
                 font-size: 2rem;
             }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .navigation {
                 padding: 15px;
             }
-            
+
             .nav-btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
@@ -464,7 +471,7 @@
 </head>
 <body>
     <div class="app">
-        <div class="container">
+        <div class="container" id="cv-container">
             <nav class="navigation">
                 <button class="nav-btn active" onclick="showSection('profile')">Profil</button>
                 <button class="nav-btn" onclick="showSection('experience')">Expérience</button>
@@ -505,6 +512,8 @@
                         </div>
                     </div>
                 </div>
+
+                <span class="pdf-pagebreak"></span>
 
                 <!-- Section Expérience -->
                 <div id="experience" class="section-content">
@@ -632,6 +641,8 @@
                     </div>
                 </div>
 
+                <span class="pdf-pagebreak"></span>
+
                 <!-- Section Formation -->
                 <div id="education" class="section-content">
                     <h2 class="section-title">Formation & Certifications</h2>
@@ -706,14 +717,15 @@
                 sec.classList.add('active');
             });
 
-            // Génère le PDF
-            const element = document.querySelector('.container');
+            // Génère le PDF avec les sauts de page
+            const element = document.getElementById('cv-container');
             const opt = {
                 margin:       0.3,
                 filename:     'CV-Frederic-Escoffier.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['css', 'legacy'] }
             };
             html2pdf().set(opt).from(element).save().then(() => {
                 // Remet l’état initial (une seule section active)
