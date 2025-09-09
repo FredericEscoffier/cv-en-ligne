@@ -698,7 +698,15 @@
         }
 
         function downloadPDF() {
-            // Sélectionne le contenu principal à exporter en PDF
+            // Rendre toutes les sections visibles
+            const sections = document.querySelectorAll('.section-content');
+            const alreadyActive = [];
+            sections.forEach(sec => {
+                if (sec.classList.contains('active')) alreadyActive.push(sec);
+                sec.classList.add('active');
+            });
+
+            // Génère le PDF
             const element = document.querySelector('.container');
             const opt = {
                 margin:       0.3,
@@ -707,7 +715,11 @@
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(element).save();
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Remet l’état initial (une seule section active)
+                sections.forEach(sec => sec.classList.remove('active'));
+                alreadyActive.forEach(sec => sec.classList.add('active'));
+            });
         }
 
         // Animation des barres de compétences au chargement
