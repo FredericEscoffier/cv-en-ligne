@@ -459,6 +459,8 @@
             }
         }
     </style>
+    <!-- Ajout de html2pdf.js depuis CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="app">
@@ -471,7 +473,7 @@
                 <button class="nav-btn" onclick="showSection('contact')">Contact</button>
             </nav>
 
-            <main class="main-content">
+            <main class="main-content" id="main-content">
                 <!-- Section Profil -->
                 <div id="profile" class="section-content active">
                     <div class="profile-header">
@@ -696,8 +698,16 @@
         }
 
         function downloadPDF() {
-            // Simuler le téléchargement du PDF
-            alert("Fonctionnalité de téléchargement du PDF à implémenter selon vos besoins.");
+            // Sélectionne le contenu principal à exporter en PDF
+            const element = document.querySelector('.container');
+            const opt = {
+                margin:       0.3,
+                filename:     'CV-Frederic-Escoffier.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
         }
 
         // Animation des barres de compétences au chargement
